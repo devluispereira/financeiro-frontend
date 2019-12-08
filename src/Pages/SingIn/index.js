@@ -5,6 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { singInRequest } from '../../store/modules/auth/actions';
+import {Container} from './styles'
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -22,13 +23,16 @@ export default function SingIn() {
   }
 
   return (
-    <>
-      <Form schema={schema} onSubmit={handleSubmit}>
+   <Container>     
+       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="email" type="email" placeholder="Seu Email" />
         <Input name="password" type="password" placeholder="Sua Senha" />
 
         <button type="submit">{loading ? 'Carregando...' : 'Acessar'}</button>
-      </Form>
-    </>
+      </Form> 
+
+   </Container>
+
+     
   );
 }

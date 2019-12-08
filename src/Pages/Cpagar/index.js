@@ -30,8 +30,13 @@ export default function Cpagar() {
 
   useEffect(() => {
     async function chamada() {
-      const response = await api.get('despesas');
+      const response = await api.get('despesas'{
+        headers:{
+          authorization: ``
+        }
+      });
       const { data } = await response;
+      console.log(data)
 
       setDados(data);
     }
@@ -127,7 +132,7 @@ export default function Cpagar() {
             aria-describedby="alert-dialog-description"
             fullWidth
           >
-            <DialogTitle id="alert-dialog-title">
+            <DialogTitle  id="alert-dialog-title">
               Adicionar Despesas
             </DialogTitle>
             <Grid

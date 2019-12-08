@@ -17,6 +17,7 @@ export default createGlobalStyle`
 
  html, body, #root{
    height:100%;
+   width:100%
  }
 
  body{
@@ -37,18 +38,6 @@ export default createGlobalStyle`
  button{
    cursor: pointer;
  }
- #submitDialog {
-  margin: 10px;
-      height: 30px;
-      width: 80px;
-      border: solid 1px #777;
-      border-radius: 5px;
-    background-color: #27ae60;
-    color: #fff;
-    font-weight: bold;
-    &:hover {
-      background-color: green;
-    }
 
 
 `;

@@ -1,4 +1,6 @@
 import { getMuiTheme } from 'material-ui/styles';
+import styled from 'styled-components';
+
 
 const theme = getMuiTheme({
   palette: {
@@ -7,4 +9,6 @@ const theme = getMuiTheme({
   },
 });
 
-export default theme;
+
+
+export default theme

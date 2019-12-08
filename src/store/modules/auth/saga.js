@@ -1,5 +1,6 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects';
 import api from '../../../services/api';
+import axios from '../../../services/api';
 import history from '../../../services/history';
 
 import { singInSucess, singFailure } from './actions';
@@ -7,20 +8,24 @@ import { singInSucess, singFailure } from './actions';
 export function* singIn({ payload }) {
   try {
     const { email, password } = payload;
-
+    
     const respose = yield call(api.post, 'session', {
       email,
       password,
     });
 
+   
     const { token, user } = respose.data;
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
     if (!user.provider) {
       console.tron.error('Usuário não é um provider');
     }
     yield put(singInSucess(token, user));
-
-    history.push('/dashboard');
+   
+    
+    history.push('/metas');
   } catch (erro) {
     yield put(singFailure());
   }

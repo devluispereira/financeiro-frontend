@@ -38,7 +38,7 @@ export default function Metas() {
         {grupo.map(gp => (
           <Card>
             {console.log(grupo)}
-            <Grafico
+            {/* <Grafico
               key={gp.id}
               idItem={gp.id}
               nome={gp.nome}
@@ -47,7 +47,7 @@ export default function Metas() {
               atual={despesas
                 .filter(desp => desp.grupo_despesas.nome === gp.nome)
                 .reduce((cont = 0, prox) => cont + prox.valor, 0)}
-            />
+            /> */}
           </Card>
         ))}
       </Container>
