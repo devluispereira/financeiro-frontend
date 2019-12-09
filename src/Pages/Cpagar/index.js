@@ -13,7 +13,11 @@ import {
   Select,
   MenuItem,
   FilledInput,
+  Button,
+  InputLabel,
+  FormControl,
 } from '@material-ui/core';
+import Loading from '../../components/Loading'
 
 import { Delete, Edit } from '@material-ui/icons';
 
@@ -26,21 +30,21 @@ import Dashboard from '../Dashboard';
 moment.locale('br');
 
 export default function Cpagar() {
-  const [dados, setDados] = useState([]);
+  const [dados, setDados] = useState();
+  const [loading, setLoading]=useState(true)
 
   useEffect(() => {
+   
     async function chamada() {
-      const response = await api.get('despesas'{
-        headers:{
-          authorization: ``
-        }
-      });
+      const response = await api.get('despesas');
       const { data } = await response;
       console.log(data)
-
-      setDados(data);
+      setLoading(false)
+     return setDados(data);
     }
     chamada();
+    
+    console.log(dados)
   }, []);
 
   const [estado, setEstado] = useState(false);
@@ -75,12 +79,14 @@ export default function Cpagar() {
   const [select, setSelect] = useState([]);
 
   useEffect(() => {
+   
     async function montarGrupo() {
       const { data } = await api.get('grupos');
-      console.log(data);
+    
       setSelect(data);
     }
     montarGrupo();
+    
   }, []);
 
   function changeName(e) {
@@ -94,7 +100,10 @@ export default function Cpagar() {
     setDataVencimento(e.target.value);
   }
   function changeDataP(e) {
-    setDataPagamento(e.target.value);
+    if(e.targ.value === ''){
+      return setDataPagamento(null)
+    }
+    return setDataPagamento(e.target.value);
   }
   function changeGrupo(e) {
     setGrupo(e.target.value);
@@ -106,17 +115,36 @@ export default function Cpagar() {
       vencimento: dataVencimento,
       data_pagamento: dataPagamento,
       grupo,
-      comprovante: 1,
+      
     };
     console.log(obj);
     api.post('despesas', obj);
     // window.location.reload();
   }
 
+  function handleMaturity(maturit,datePg){
+    
+    const dataAtual = new Date().toDateString()
+
+   const dataVetor = maturit.split('T')  
+   const dataVencimento = new Date(dataVetor[0]).toDateString()
+
+    if(dataVencimento <= dataAtual && datePg === null){
+      return 'vencido'
+    }
+    
+  }
+
+  
+
+    
+   
+
   return (
     <>
-      <Dashboard />
-      <Container>
+      {loading ? (<Loading/>) : (
+        <Container>
+        <Dashboard />
         <div className="Tabela">
           <h1>Contas a Pagar</h1>
           <div id="botoes">
@@ -124,7 +152,7 @@ export default function Cpagar() {
               Adionar
             </button>
           </div>
-          <h1>Valor Total </h1>
+    
           <Dialog
             open={dialog}
             onClose={handleClose}
@@ -174,23 +202,30 @@ export default function Cpagar() {
                 InputLabelProps={{
                   shrink: true,
                 }}
-              />
-              <FilledInput type="file" />
-              <Select value={grupo} onChange={changeGrupo} placeholder="Grupo">
+              />  
+                <FormControl>
+                <InputLabel>Selecione o Grupo</InputLabel>
+                <Select autoWidth={true} value={grupo} onChange={changeGrupo} style={ {
+                  width:'200px',
+                  marginBottom: "10px"
+                }}>
                 <MenuItem> </MenuItem>
                 {select.map(sl => (
                   <MenuItem value={sl.id}>{sl.nome}</MenuItem>
                 ))}
               </Select>
-              <button type="button" id="submitDialog" onClick={submitForm}>
+                  
+                  </FormControl>      
+            
+              <Button type="button" color='primary' id="submitDialog" onClick={submitForm}>
                 Inserir
-              </button>
+              </Button>
             </Grid>
           </Dialog>
           <Table>
             <TableHead align="center">
               <TableRow>
-                <TableCell>Nome</TableCell>
+                <TableCell align="center">Nome</TableCell>
                 <TableCell align="center">Valor</TableCell>
                 <TableCell align="center">Vencimento</TableCell>
                 <TableCell align="center">Data Pagamento</TableCell>
@@ -198,43 +233,40 @@ export default function Cpagar() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dados.map(dado => (
+              {dados ? dados.map(dado => (
                 <TableRow
-                  key={dado.nome}
+                                 
+                  key={dado.id}
                   hover="true"
                   onDoubleClick={() => handleEdit()}
                   onChange={() => handleEdit()}
                 >
-                  <TableCell>
-                    {estado && <Delete cursor="pointer" />}
-                    {estado && (
-                      <Edit
-                        onClick={() => console.log('editar esse tem')}
-                        cursor="pointer"
-                      />
-                    )}
+                  <TableCell  align="center">                   
                     {dado.nome}
                   </TableCell>
                   <TableCell contentEditable align="center">
                     R${dado.valor}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" className={handleMaturity(dado.vencimento,dado.data_pagamento)} >
                     {moment(dado.vencimento).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell align="center">
                     {dado.data_pagamento
                       ? moment(dado.data_pagamento).format('DD/MM/YYYY')
-                      : 'A pagar'}
+                      : (<Button>Pagar</Button>)}
                   </TableCell>
                   <TableCell align="center">
-                    {dado.grupo_despesas.nome}
+                    {dado.grupo}
                   </TableCell>
                 </TableRow>
-              ))}
+              )) : null}
             </TableBody>
           </Table>
         </div>
       </Container>
+
+      )
+      }
     </>
   );
 }

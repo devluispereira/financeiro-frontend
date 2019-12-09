@@ -5,6 +5,14 @@ export const Container = styled.div`
   background-color: #fff;
   height: 70%;
 
+  .vencido{
+    color:red;
+   font-weight:bold
+   
+  }
+ 
+  }
+
   #Tabela {
     display: flex;
     flex-direction: column;

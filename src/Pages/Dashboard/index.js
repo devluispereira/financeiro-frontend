@@ -44,8 +44,8 @@ export default function Dashboard() {
   return (
     <>
       <AppBar  title="Contole Financeiro" onLeftIconButtonClick={toggleDrawer}>
-        <img src="" alt="avatar" />
-        <span>Nome do usuario</span>
+       
+         <span>{user.name}</span>
       </AppBar>
       <Drawer open={status} docked={false} onRequestChange={toggleDrawer}>
         <HeaderDrawer>
