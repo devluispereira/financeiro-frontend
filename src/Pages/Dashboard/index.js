@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import { List, ListItem, } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 
-import  './styles.js';
-import {HeaderDrawer} from './stylesComponent'
-import {MdDashboard,MdExitToApp} from 'react-icons/md'
-import {GiPayMoney,GiReceiveMoney} from 'react-icons/gi'
-
-
-
+import './styles.js';
+import { HeaderDrawer } from './stylesComponent';
+import { MdDashboard, MdExitToApp } from 'react-icons/md';
+import { GiPayMoney, GiReceiveMoney } from 'react-icons/gi';
 
 export default function Dashboard() {
   const [status, setStatus] = useState(false);
 
-  const user = useSelector(state => state.user.profile)
-  const date =  new Date();
- 
+  const user = useSelector(state => state.user.profile);
+  const date = new Date();
 
-  function exit(){
+  function exit() {
     localStorage.clear();
-    window.location.reload()
+    window.location.reload();
   }
 
   const toggleDrawer = () => {
@@ -43,16 +39,24 @@ export default function Dashboard() {
 
   return (
     <>
-      <AppBar  title="Contole Financeiro" onLeftIconButtonClick={toggleDrawer}>
-       
-         <span>{user.name}</span>
+      <AppBar
+        style={{
+          margin: '0px',
+        }}
+        title="Contole Financeiro"
+        onLeftIconButtonClick={toggleDrawer}
+      >
+        <span>{user.name}</span>
       </AppBar>
       <Drawer open={status} docked={false} onRequestChange={toggleDrawer}>
         <HeaderDrawer>
           <span>Sistema Financeiro</span>
-          
-          <div >
-            <p><strong>Usuario: </strong>{user.name}</p>
+
+          <div>
+            <p>
+              <strong>Usuario: </strong>
+              {user.name}
+            </p>
             <p>
               <strong>Data: </strong>
               {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
@@ -61,19 +65,19 @@ export default function Dashboard() {
         </HeaderDrawer>
         <List>
           <Link to="/">
-            
-           <ListItem   leftIcon={<MdDashboard/>}> Dashboard</ListItem>
+            <ListItem leftIcon={<MdDashboard />}> Dashboard</ListItem>
           </Link>
           <Link to="/cpagar">
-            <ListItem leftIcon={<GiPayMoney/>}>Contas a pagar</ListItem>
+            <ListItem leftIcon={<GiPayMoney />}>Contas a pagar</ListItem>
           </Link>
 
           <Link to="/creceber">
-            <ListItem leftIcon={<GiReceiveMoney/>}>Contas a Receber</ListItem>
+            <ListItem leftIcon={<GiReceiveMoney />}>Contas a Receber</ListItem>
           </Link>
-          <Link onClick={()=> exit()} >
-            <ListItem leftIcon={<MdExitToApp/>}><strong>Sair</strong></ListItem>
-         
+          <Link onClick={() => exit()}>
+            <ListItem leftIcon={<MdExitToApp />}>
+              <strong>Sair</strong>
+            </ListItem>
           </Link>
         </List>
       </Drawer>
