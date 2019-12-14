@@ -74,7 +74,7 @@ export default function Dashboard() {
           <Link to="/creceber">
             <ListItem leftIcon={<GiReceiveMoney />}>Contas a Receber</ListItem>
           </Link>
-          <Link onClick={() => exit()}>
+          <Link to="/" onClick={() => exit()}>
             <ListItem leftIcon={<MdExitToApp />}>
               <strong>Sair</strong>
             </ListItem>
