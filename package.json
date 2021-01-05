@@ -8,7 +8,7 @@
     "@material-ui/icons": "^4.4.3",
     "@material-ui/pickers": "^3.2.6",
     "@rocketseat/unform": "^1.5.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "chart.js": "^2.8.0",
     "history": "^4.10.1",
     "immer": "^4.0.0",
