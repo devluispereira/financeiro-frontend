@@ -14,7 +14,7 @@
     "immer": "^4.0.0",
     "import": "^0.0.6",
     "material-ui": "^0.20.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-app": "^1.1.2",
